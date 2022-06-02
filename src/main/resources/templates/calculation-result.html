@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+    <div th:fragment="calcResultFragment">
+        <p>Результаты расчета:</p>
+        <p th:text="${idCities}"></p>
+        <p th:text="${crowflightResult}"></p>
+        <p th:text="${distanceMatrix}"></p>
+        <p th:text="${exception}"></p>
+        <p th:text="${exception1}"></p>
+    </div>
+
+</body>
+
+</html>

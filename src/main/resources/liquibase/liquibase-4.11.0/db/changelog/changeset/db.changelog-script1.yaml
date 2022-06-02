@@ -1,0 +1,203 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_city
+      author: ilya
+      changes:
+        - createTable:
+            tableName: city
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: latitude
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: longitude
+                  type: double
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: create_table_distance
+      author: ilya
+      changes:
+        - createTable:
+            tableName: distance
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: from_city_id
+                  type: BIGINT
+                  constraints:
+                    - foreignKeyName: from_city_id_fk
+                    - referencedTableName: City
+                    - referencedColumnNames: id
+              - column:
+                  name: to_city_id
+                  type: BIGINT
+                  constraints:
+                    - foreignKeyName: to_city_id_fk
+                    - referencedTableName: City
+                    - referencedColumnNames: id
+              - column:
+                  name: distance
+                  type: double
+        - addUniqueConstraint:
+            catalogName: distance-calculator
+            columnNames: from_city_id, to_city_id
+            constraintName: const_fromCity_toCity
+            deferrable: true
+            disabled: true
+            initiallyDeferred: true
+            schemaName: public
+            tableName: distance
+            tablespace: A String
+            validate: true
+  - changeSet:
+      id: insert_into_cities
+      author: ilya
+      comment: "Create admin user"
+      changes:
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Amsterdam"
+              - column:
+                  name: latitude
+                  value: 52.37
+              - column:
+                  name: longitude
+                  value: 4.89
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Ankara"
+              - column:
+                  name: latitude
+                  value: 39.92
+              - column:
+                  name: longitude
+                  value: 32.85
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Brussel"
+              - column:
+                  name: latitude
+                  value: 50.85
+              - column:
+                  name: longitude
+                  value: 4.35
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Cairo"
+              - column:
+                  name: latitude
+                  value: 30.06
+              - column:
+                  name: longitude
+                  value: 31.25
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Colombo"
+              - column:
+                  name: latitude
+                  value: 6.93
+              - column:
+                  name: longitude
+                  value: 79.85
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "London"
+              - column:
+                  name: latitude
+                  value: 51.51
+              - column:
+                  name: longitude
+                  value: -0.13
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Madrid"
+              - column:
+                  name: latitude
+                  value: 40.42
+              - column:
+                  name: longitude
+                  value: -3.7
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Paris"
+              - column:
+                  name: latitude
+                  value: 48.85
+              - column:
+                  name: longitude
+                  value: 2.35
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Roma"
+              - column:
+                  name: latitude
+                  value: 41.89
+              - column:
+                  name: longitude
+                  value: 12.51
+        - insert:
+            tableName: city
+            columns:
+              - column:
+                  name: name
+                  value: "Tokyo"
+              - column:
+                  name: latitude
+                  value: 35.69
+              - column:
+                  name: longitude
+                  value: 139.69
+
+      rollback:
+        - delete:
+            tableName: city
+            where: name in ('Amsterdam', 'Ankara', 'Brussel', 'Cairo', 'Colombo', 'London', 'Madrid', 'Paris', 'Roma', 'Tokyo')
